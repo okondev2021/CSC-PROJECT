@@ -1,17 +1,24 @@
-import React from 'react';
-import { XIcon, CheckCircleIcon, ClockIcon, CalendarIcon, TagIcon, MessageSquareIcon } from 'lucide-react';
-import { FeedbackItem } from '../App';
+import React from "react";
+import {
+  XIcon,
+  CheckCircleIcon,
+  ClockIcon,
+  CalendarIcon,
+  TagIcon,
+  MessageSquareIcon,
+} from "lucide-react";
+import { FeedbackItem } from "../typings";
 
 interface FeedbackModalProps {
   feedback: FeedbackItem;
   onClose: () => void;
-  onStatusChange: (id: string, status: 'pending' | 'resolved') => void;
+  onStatusChange: (id: string, status: "pending" | "resolved") => void;
 }
 
 const FeedbackModal: React.FC<FeedbackModalProps> = ({
   feedback,
   onClose,
-  onStatusChange
+  onStatusChange,
 }) => {
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -22,7 +29,11 @@ const FeedbackModal: React.FC<FeedbackModalProps> = ({
       onClose();
     }
   };
-  return <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50" onClick={handleBackdropClick}>
+  return (
+    <div
+      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+      onClick={handleBackdropClick}
+    >
       <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
         {/* Header Section */}
         <div className="border-b border-gray-200">
@@ -31,20 +42,49 @@ const FeedbackModal: React.FC<FeedbackModalProps> = ({
               <h2 className="text-2xl font-bold text-gray-800">
                 Feedback Details
               </h2>
-              <button onClick={onClose} className="text-gray-400 hover:text-gray-600 transition-colors p-1 hover:bg-gray-100 rounded-full">
+              <button
+                onClick={onClose}
+                className="text-gray-400 hover:text-gray-600 transition-colors p-1 hover:bg-gray-100 rounded-full"
+              >
                 <XIcon className="h-6 w-6" />
               </button>
             </div>
             {/* Status Banner */}
-            <div className={`w-full rounded-lg p-4 mb-4 ${feedback.status === 'resolved' ? 'bg-green-50 border border-green-100' : 'bg-amber-50 border border-amber-100'}`}>
+            <div
+              className={`w-full rounded-lg p-4 mb-4 ${
+                feedback.status === "resolved"
+                  ? "bg-green-50 border border-green-100"
+                  : "bg-amber-50 border border-amber-100"
+              }`}
+            >
               <div className="flex items-center">
-                {feedback.status === 'resolved' ? <CheckCircleIcon className="h-6 w-6 text-green-600 mr-3" /> : <ClockIcon className="h-6 w-6 text-amber-600 mr-3" />}
+                {feedback.status === "resolved" ? (
+                  <CheckCircleIcon className="h-6 w-6 text-green-600 mr-3" />
+                ) : (
+                  <ClockIcon className="h-6 w-6 text-amber-600 mr-3" />
+                )}
                 <div>
-                  <h3 className={`font-semibold ${feedback.status === 'resolved' ? 'text-green-800' : 'text-amber-800'}`}>
-                    {feedback.status === 'resolved' ? 'Resolved Feedback' : 'Pending Review'}
+                  <h3
+                    className={`font-semibold ${
+                      feedback.status === "resolved"
+                        ? "text-green-800"
+                        : "text-amber-800"
+                    }`}
+                  >
+                    {feedback.status === "resolved"
+                      ? "Resolved Feedback"
+                      : "Pending Review"}
                   </h3>
-                  <p className={`text-sm ${feedback.status === 'resolved' ? 'text-green-600' : 'text-amber-600'}`}>
-                    {feedback.status === 'resolved' ? 'This feedback has been addressed' : 'This feedback is awaiting review'}
+                  <p
+                    className={`text-sm ${
+                      feedback.status === "resolved"
+                        ? "text-green-600"
+                        : "text-amber-600"
+                    }`}
+                  >
+                    {feedback.status === "resolved"
+                      ? "This feedback has been addressed"
+                      : "This feedback is awaiting review"}
                   </p>
                 </div>
               </div>
@@ -58,7 +98,7 @@ const FeedbackModal: React.FC<FeedbackModalProps> = ({
                 <div>
                   <p className="text-sm text-gray-500">Submitted on</p>
                   <p className="font-medium text-gray-900">
-                    {formatDate(feedback.date)}
+                    {formatDate(feedback.created_at)}
                   </p>
                 </div>
               </div>
@@ -93,19 +133,33 @@ const FeedbackModal: React.FC<FeedbackModalProps> = ({
         {/* Actions Footer */}
         <div className="border-t border-gray-200 p-6 bg-gray-50">
           <div className="flex justify-between items-center">
-            <button onClick={onClose} className="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors">
+            <button
+              onClick={onClose}
+              className="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors"
+            >
               Close
             </button>
-            {feedback.status === 'pending' ? <button onClick={() => onStatusChange(feedback.id, 'resolved')} className="flex items-center px-6 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition-colors shadow-sm">
+            {feedback.status === "pending" ? (
+              <button
+                onClick={() => onStatusChange(feedback.id, "resolved")}
+                className="flex items-center px-6 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition-colors shadow-sm"
+              >
                 <CheckCircleIcon className="h-5 w-5 mr-2" />
                 Mark as Resolved
-              </button> : <button onClick={() => onStatusChange(feedback.id, 'pending')} className="flex items-center px-6 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition-colors shadow-sm">
+              </button>
+            ) : (
+              <button
+                onClick={() => onStatusChange(feedback.id, "pending")}
+                className="flex items-center px-6 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition-colors shadow-sm"
+              >
                 <ClockIcon className="h-5 w-5 mr-2" />
                 Mark as Pending
-              </button>}
+              </button>
+            )}
           </div>
         </div>
       </div>
-    </div>;
+    </div>
+  );
 };
 export default FeedbackModal;
